@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
-using System.EnterpriseServices;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TableAnalyser.Properties;
 
@@ -17,15 +9,16 @@ namespace TableAnalyser
 {
     public partial class TableView : Form
     {
-        private DataTable _dataTable;
         private readonly OpenFileDialog _openFileDialog = new OpenFileDialog
         {
             Filter = Resources._openFileDialog_Filter,
             Title = Resources._openFileDialog_Title
         };
-        
+
+        private DataTable _dataTable;
+
         /// <summary>
-        /// Create form of TableView
+        ///     Create form of TableView
         /// </summary>
         public TableView()
         {
@@ -36,7 +29,7 @@ namespace TableAnalyser
         }
 
         /// <summary>
-        /// Loader for TableView
+        ///     Loader for TableView
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
@@ -46,13 +39,12 @@ namespace TableAnalyser
         }
 
         /// <summary>
-        /// Open file
+        ///     Open file
         /// </summary>
         private void OpenFile()
         {
             bool flag = false;
             while (!flag)
-            {
                 try
                 {
                     if (_openFileDialog.ShowDialog() != DialogResult.OK)
@@ -67,33 +59,31 @@ namespace TableAnalyser
                 {
                     MessageBox.Show(exception.Message);
                 }
-            }
         }
 
         /// <summary>
-        /// Fill table of elements
+        ///     Fill table of elements
         /// </summary>
         private void FillTable()
         {
             _dataTable = new DataTable();
             string[] tmp = File.ReadAllLines(_openFileDialog.FileName);
             for (int i = 0; i < tmp.Length; i++)
-            {
                 if (i == 0)
                     foreach (string s in tmp[i].Split(','))
                         _dataTable.Columns.Add(s);
                 else
                     _dataTable.Rows.Add(_dataTable.NewRow().ItemArray = tmp[i].Split(','));
-            }
         }
-        
+
         /// <summary>
-        /// Show table of elements
+        ///     Show table of elements
         /// </summary>
         private void ShowTable()
         {
             _dataGridView.DataSource = _dataTable;
-            _dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold);
+            _dataGridView.ColumnHeadersDefaultCellStyle.Font =
+                new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold);
             _dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             _dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             _dataGridView.ScrollBars = ScrollBars.Both;
@@ -104,7 +94,7 @@ namespace TableAnalyser
         }
 
         /// <summary>
-        /// Clicker for open file menu
+        ///     Clicker for open file menu
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
@@ -114,7 +104,7 @@ namespace TableAnalyser
         }
 
         /// <summary>
-        /// Clicker for build graph menu
+        ///     Clicker for build graph menu
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>

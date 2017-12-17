@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TableAnalyser
@@ -14,11 +9,9 @@ namespace TableAnalyser
     {
         private readonly DataTable _dataTable;
         private string[] _tableHeaders;
-        public string FirstColumn { get; private set; }
-        public string SecondColumn { get; private set; }
 
         /// <summary>
-        /// Create form of ChooseColumn
+        ///     Create form of ChooseColumn
         /// </summary>
         /// <param name="dataTable"></param>
         public ChooseColumns(DataTable dataTable)
@@ -30,8 +23,11 @@ namespace TableAnalyser
             Load += ChooseColumns_Load;
         }
 
+        public string FirstColumn { get; private set; }
+        public string SecondColumn { get; private set; }
+
         /// <summary>
-        /// Loader for ChooseColumn
+        ///     Loader for ChooseColumn
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
@@ -46,7 +42,7 @@ namespace TableAnalyser
         }
 
         /// <summary>
-        /// Clicker for button
+        ///     Clicker for button
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>

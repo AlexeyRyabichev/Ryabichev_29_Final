@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -15,14 +10,14 @@ namespace TableAnalyser
     public partial class GraphView : Form
     {
         private readonly DataTable _dataTable;
+        private readonly string _firstColumn;
+        private readonly string _secondColumn;
         private readonly Dictionary<int, int> _xY = new Dictionary<int, int>();
         private readonly Dictionary<int, int> _yX = new Dictionary<int, int>();
         private bool _flag;
-        private readonly string _firstColumn;
-        private readonly string _secondColumn;
 
         /// <summary>
-        /// Creates GraphView Form
+        ///     Creates GraphView Form
         /// </summary>
         /// <param name="dataTable">Table of elements</param>
         /// <param name="firstColumn">Name of first column</param>
@@ -37,7 +32,7 @@ namespace TableAnalyser
         }
 
         /// <summary>
-        /// Loader for GraphView
+        ///     Loader for GraphView
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
@@ -48,7 +43,7 @@ namespace TableAnalyser
         }
 
         /// <summary>
-        /// Method for revert chart
+        ///     Method for revert chart
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
@@ -59,7 +54,7 @@ namespace TableAnalyser
         }
 
         /// <summary>
-        /// Method which build chart
+        ///     Method which build chart
         /// </summary>
         /// <param name="xy">Dicitonary of coordinates</param>
         private void BuildChart(Dictionary<int, int> xy)
@@ -73,25 +68,32 @@ namespace TableAnalyser
         }
 
         /// <summary>
-        /// Method, which parsing table of elements
+        ///     Method, which parsing table of elements
         /// </summary>
         private void ParseTable()
         {
             for (int i = 0; i < _dataTable.Rows.Count; i++)
-            {
                 try
                 {
-                    _xY.Add(_dataTable.Rows[i][_firstColumn] == null ? 0 : int.Parse(_dataTable.Rows[i][_firstColumn] as string),
-                        _dataTable.Rows[i][_secondColumn] == null ? 0 : int.Parse(_dataTable.Rows[i][_secondColumn] as string));
-                    _yX.Add(_dataTable.Rows[i][_secondColumn] == null ? 0 : int.Parse(_dataTable.Rows[i][_secondColumn] as string),
-                        _dataTable.Rows[i][_firstColumn] == null ? 0 : int.Parse(_dataTable.Rows[i][_firstColumn] as string));
+                    _xY.Add(
+                        _dataTable.Rows[i][_firstColumn] == null
+                            ? 0
+                            : int.Parse(_dataTable.Rows[i][_firstColumn] as string),
+                        _dataTable.Rows[i][_secondColumn] == null
+                            ? 0
+                            : int.Parse(_dataTable.Rows[i][_secondColumn] as string));
+                    _yX.Add(
+                        _dataTable.Rows[i][_secondColumn] == null
+                            ? 0
+                            : int.Parse(_dataTable.Rows[i][_secondColumn] as string),
+                        _dataTable.Rows[i][_firstColumn] == null
+                            ? 0
+                            : int.Parse(_dataTable.Rows[i][_firstColumn] as string));
                 }
                 catch (Exception e)
                 {
                     //MessageBox.Show(e.Message);
                 }
-            }
-            
         }
     }
 }
