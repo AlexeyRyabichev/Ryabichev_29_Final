@@ -2,6 +2,7 @@
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using ErrorsLib;
 
 namespace TableAnalyser
 {
@@ -9,6 +10,8 @@ namespace TableAnalyser
     {
         private readonly DataTable _dataTable;
         private string[] _tableHeaders;
+        public string FirstColumn { get; private set; }
+        public string SecondColumn { get; private set; }
 
         /// <summary>
         ///     Create form of ChooseColumn
@@ -19,12 +22,12 @@ namespace TableAnalyser
             InitializeComponent();
             Size = new Size(400, 400);
             StartPosition = FormStartPosition.CenterScreen;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             _dataTable = dataTable;
             Load += ChooseColumns_Load;
         }
 
-        public string FirstColumn { get; private set; }
-        public string SecondColumn { get; private set; }
+
 
         /// <summary>
         ///     Loader for ChooseColumn
@@ -49,9 +52,10 @@ namespace TableAnalyser
         private void button_Click(object sender, EventArgs e)
         {
             if (checkedListBox.CheckedIndices.Count != 2)
-                throw new Exception("Choose only two columns");
+                throw new ChooseException("Choose only two columns");
             FirstColumn = _tableHeaders[checkedListBox.CheckedIndices[0]];
             SecondColumn = _tableHeaders[checkedListBox.CheckedIndices[1]];
+            DialogResult = DialogResult.OK;
             Close();
         }
     }

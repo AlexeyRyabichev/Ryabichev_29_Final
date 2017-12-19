@@ -43,7 +43,7 @@
             this.buildGraphToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(284, 24);
+            this.menuStrip.Size = new System.Drawing.Size(684, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "Menu";
             // 
@@ -65,18 +65,19 @@
             // 
             this._dataGridView.AllowUserToAddRows = false;
             this._dataGridView.AllowUserToDeleteRows = false;
+            this._dataGridView.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this._dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this._dataGridView.Location = new System.Drawing.Point(0, 27);
+            this._dataGridView.Location = new System.Drawing.Point(20, 25);
             this._dataGridView.Name = "_dataGridView";
             this._dataGridView.ReadOnly = true;
-            this._dataGridView.Size = new System.Drawing.Size(284, 235);
+            this._dataGridView.Size = new System.Drawing.Size(650, 620);
             this._dataGridView.TabIndex = 1;
             // 
             // TableView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(684, 661);
             this.Controls.Add(this._dataGridView);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;

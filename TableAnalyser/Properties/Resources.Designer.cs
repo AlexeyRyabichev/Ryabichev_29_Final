@@ -86,5 +86,15 @@ namespace TableAnalyser.Properties {
                 return ResourceManager.GetString("_openFileDialogTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have error while choosing: 
+        ///.
+        /// </summary>
+        internal static string ChooseExceptionMessage {
+            get {
+                return ResourceManager.GetString("ChooseExceptionMessage", resourceCulture);
+            }
+        }
     }
 }

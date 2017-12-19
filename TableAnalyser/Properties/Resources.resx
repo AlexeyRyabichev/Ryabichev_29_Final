@@ -123,4 +123,8 @@
   <data name="_openFileDialog_Title" xml:space="preserve">
     <value>Open CSV file for 29 variant</value>
   </data>
+  <data name="ChooseExceptionMessage" xml:space="preserve">
+    <value>You have error while choosing: 
+</value>
+  </data>
 </root>

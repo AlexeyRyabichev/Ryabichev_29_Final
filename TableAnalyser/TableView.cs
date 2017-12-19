@@ -3,6 +3,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using ErrorsLib;
 using TableAnalyser.Properties;
 
 namespace TableAnalyser
@@ -16,6 +17,7 @@ namespace TableAnalyser
         };
 
         private DataTable _dataTable;
+        private bool fileReady = false;
 
         /// <summary>
         ///     Create form of TableView
@@ -23,8 +25,8 @@ namespace TableAnalyser
         public TableView()
         {
             InitializeComponent();
-            Size = new Size(700, 700);
             StartPosition = FormStartPosition.CenterScreen;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Load += TableView_Load;
         }
 
@@ -35,6 +37,7 @@ namespace TableAnalyser
         /// <param name="e">event arguments</param>
         private void TableView_Load(object sender, EventArgs e)
         {
+            Show();
             OpenFile();
         }
 
@@ -47,13 +50,18 @@ namespace TableAnalyser
             while (!flag)
                 try
                 {
-                    if (_openFileDialog.ShowDialog() != DialogResult.OK)
-                        throw new Exception("Please, choose file first");
-
+                    DialogResult dialogResult = _openFileDialog.ShowDialog();
+                    if (dialogResult != DialogResult.OK && !fileReady)
+                        throw new Exception("Please, choose file firstly");
+                    
+                    Cursor.Current = Cursors.WaitCursor;
                     FillTable();
+                    Cursor.Current = Cursors.Default;
+                    Show();
                     ShowTable();
 
                     flag = true;
+                    fileReady = true;
                 }
                 catch (Exception exception)
                 {
@@ -68,12 +76,13 @@ namespace TableAnalyser
         {
             _dataTable = new DataTable();
             string[] tmp = File.ReadAllLines(_openFileDialog.FileName);
+
             for (int i = 0; i < tmp.Length; i++)
                 if (i == 0)
                     foreach (string s in tmp[i].Split(','))
                         _dataTable.Columns.Add(s);
                 else
-                    _dataTable.Rows.Add(_dataTable.NewRow().ItemArray = tmp[i].Split(','));
+                    _dataTable.Rows.Add(_dataTable.NewRow().ItemArray = SmartSplit(tmp[i]));
         }
 
         /// <summary>
@@ -87,9 +96,6 @@ namespace TableAnalyser
             _dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             _dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             _dataGridView.ScrollBars = ScrollBars.Both;
-            _dataGridView.Height = Height - 25;
-            _dataGridView.Width = Height - 25;
-            _dataGridView.Padding = new Padding(0, 25, 0, 0);
             _dataGridView.Anchor = AnchorStyles.Top;
         }
 
@@ -111,9 +117,48 @@ namespace TableAnalyser
         private void buildGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChooseColumns chooseColumns = new ChooseColumns(_dataTable);
-            chooseColumns.ShowDialog();
-            GraphView graphView = new GraphView(_dataTable, chooseColumns.FirstColumn, chooseColumns.SecondColumn);
-            graphView.Show();
+            try
+            {
+                DialogResult dialogResult = chooseColumns.ShowDialog();
+                if (dialogResult == DialogResult.OK)
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    GraphView graphView =
+                        new GraphView(_dataTable, chooseColumns.FirstColumn, chooseColumns.SecondColumn);
+                    graphView.Show();
+                }
+                else if (dialogResult != DialogResult.Abort && dialogResult != DialogResult.Cancel)
+                {
+                    throw new ChooseException();
+                }
+            }
+            catch (ChooseException exception)
+            {
+                MessageBox.Show(Resources.ChooseExceptionMessage + exception.Message);
+                buildGraphToolStripMenuItem_Click(sender, e);
+            }
+            catch (GraphException exception)
+            {
+                if (exception.InnerException != null) MessageBox.Show(exception.InnerException.Message);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
+
+        /// <summary>
+        ///     Split string by coma
+        /// </summary>
+        /// <param name="s">string</param>
+        /// <returns>object[]</returns>
+        private object[] SmartSplit(string s)
+        {
+            if (s == null) throw new ArgumentNullException(nameof(s));
+            object[] objects = new object[_dataTable.Columns.Count];
+            for (int j = 0; j < s.Split(',').Length; j++)
+                objects[j] = string.IsNullOrEmpty(s.Split(',')[j]) ? "0" : s.Split(',')[j];
+            return objects;
         }
     }
 }

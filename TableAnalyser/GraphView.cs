@@ -4,6 +4,8 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using ErrorsLib;
+using Cursor = System.Windows.Forms.Cursor;
 
 namespace TableAnalyser
 {
@@ -28,7 +30,9 @@ namespace TableAnalyser
             _dataTable = dataTable;
             _firstColumn = firstColumn;
             _secondColumn = secondColumn;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             _flag = false;
+            Load += GraphView_Load;
         }
 
         /// <summary>
@@ -39,7 +43,8 @@ namespace TableAnalyser
         private void GraphView_Load(object sender, EventArgs e)
         {
             ParseTable();
-            BuildChart(_xY);
+            Cursor.Current = Cursors.Default;
+            BuildChart(_xY, _firstColumn, _secondColumn);
         }
 
         /// <summary>
@@ -50,16 +55,23 @@ namespace TableAnalyser
         private void chart_Click(object sender, EventArgs e)
         {
             _flag = !_flag;
-            BuildChart(_flag ? _xY : _yX);
+            if (_flag)
+                BuildChart(_xY, _firstColumn, _secondColumn);
+            else
+                BuildChart(_xY, _secondColumn, _firstColumn);
         }
 
         /// <summary>
-        ///     Method which build chart
+        ///     Build chart
         /// </summary>
         /// <param name="xy">Dicitonary of coordinates</param>
-        private void BuildChart(Dictionary<int, int> xy)
+        private void BuildChart(Dictionary<int, int> xy, string Ox, string Oy)
         {
             chart.Series[0].Points.Clear();
+            chart.Series[0].Name = "Graph";
+            chart.Series[0].LegendText = "Dependence " + Ox + " from " + Oy;
+            chart.ChartAreas[0].AxisX.Title = Ox;
+            chart.ChartAreas[0].AxisY.Title = Oy;
             var myList = xy.ToList();
             myList.Sort((pair1, pair2) => pair1.Key.CompareTo(pair2.Key));
             foreach (KeyValuePair<int, int> pair in myList)
@@ -68,32 +80,45 @@ namespace TableAnalyser
         }
 
         /// <summary>
-        ///     Method, which parsing table of elements
+        ///     Parsing table of elements
         /// </summary>
         private void ParseTable()
         {
-            for (int i = 0; i < _dataTable.Rows.Count; i++)
+            //for (int i = 0; i < _dataTable.Rows.Count; i++)
+            foreach (DataRow row in _dataTable.Rows)
                 try
                 {
-                    _xY.Add(
-                        _dataTable.Rows[i][_firstColumn] == null
-                            ? 0
-                            : int.Parse(_dataTable.Rows[i][_firstColumn] as string),
-                        _dataTable.Rows[i][_secondColumn] == null
-                            ? 0
-                            : int.Parse(_dataTable.Rows[i][_secondColumn] as string));
+                    if (_xY.ContainsKey(int.Parse(row[_firstColumn] as string ?? throw new BuildingGraphException())))
+                        _xY[int.Parse(row[_firstColumn] as string)] =
+                        (_xY[int.Parse(row[_firstColumn] as string)] + (row[_secondColumn] == null
+                             ? 0
+                             : int.Parse(row[_secondColumn] as string ?? throw new BuildingGraphException()))) / 2;
+                    else
+                        _xY.Add(
+                            row[_firstColumn] == null
+                                ? 0
+                                : int.Parse(row[_firstColumn] as string ?? throw new BuildingGraphException()),
+                            row[_secondColumn] == null
+                                ? 0
+                                : int.Parse(row[_secondColumn] as string ?? throw new BuildingGraphException()));
+                if (_yX.ContainsKey(int.Parse(row[_secondColumn] as string ?? throw new BuildingGraphException())))
+                    _yX[int.Parse(row[_secondColumn] as string)] =
+                    (_yX[int.Parse(row[_secondColumn] as string)] + (row[_firstColumn] == null
+                         ? 0
+                         : int.Parse(row[_firstColumn] as string ?? throw new BuildingGraphException()))) / 2;
+                else
                     _yX.Add(
-                        _dataTable.Rows[i][_secondColumn] == null
+                        row[_secondColumn] == null
                             ? 0
-                            : int.Parse(_dataTable.Rows[i][_secondColumn] as string),
-                        _dataTable.Rows[i][_firstColumn] == null
+                            : int.Parse(row[_secondColumn] as string ?? throw new BuildingGraphException()),
+                        row[_firstColumn] == null
                             ? 0
-                            : int.Parse(_dataTable.Rows[i][_firstColumn] as string));
-                }
-                catch (Exception e)
-                {
-                    //MessageBox.Show(e.Message);
-                }
+                            : int.Parse(row[_firstColumn] as string ?? throw new BuildingGraphException()));
+            }
+            catch (Exception exception)
+            {
+                throw new GraphException(exception);
+            }
         }
     }
 }
