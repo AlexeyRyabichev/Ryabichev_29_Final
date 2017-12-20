@@ -17,7 +17,7 @@ namespace TableAnalyser
         };
 
         private DataTable _dataTable;
-        private bool fileReady = false;
+        private bool _fileReady;
 
         /// <summary>
         ///     Create form of TableView
@@ -27,6 +27,7 @@ namespace TableAnalyser
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Font = new Font("Bandera", 8);
             Load += TableView_Load;
         }
 
@@ -51,7 +52,7 @@ namespace TableAnalyser
                 try
                 {
                     DialogResult dialogResult = _openFileDialog.ShowDialog();
-                    if (dialogResult != DialogResult.OK && !fileReady)
+                    if (dialogResult != DialogResult.OK && !_fileReady)
                         throw new Exception("Please, choose file firstly");
                     
                     Cursor.Current = Cursors.WaitCursor;
@@ -61,7 +62,7 @@ namespace TableAnalyser
                     ShowTable();
 
                     flag = true;
-                    fileReady = true;
+                    _fileReady = true;
                 }
                 catch (Exception exception)
                 {

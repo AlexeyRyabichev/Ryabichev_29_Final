@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using ErrorsLib;
+using TableAnalyser.Properties;
 using Cursor = System.Windows.Forms.Cursor;
 
 namespace TableAnalyser
@@ -14,9 +15,11 @@ namespace TableAnalyser
         private readonly DataTable _dataTable;
         private readonly string _firstColumn;
         private readonly string _secondColumn;
-        private readonly Dictionary<int, int> _xY = new Dictionary<int, int>();
-        private readonly Dictionary<int, int> _yX = new Dictionary<int, int>();
+        private readonly Dictionary<int, int> _xYDictionary = new Dictionary<int, int>();
+        private readonly Dictionary<int, int> _yXDictionary = new Dictionary<int, int>();
         private bool _flag;
+        private List<KeyValuePair<int, int>> _xY = new List<KeyValuePair<int, int>>();
+        private List<KeyValuePair<int, int>> _yX = new List<KeyValuePair<int, int>>();
 
         /// <summary>
         ///     Creates GraphView Form
@@ -32,19 +35,11 @@ namespace TableAnalyser
             _secondColumn = secondColumn;
             FormBorderStyle = FormBorderStyle.FixedSingle;
             _flag = false;
-            Load += GraphView_Load;
-        }
-
-        /// <summary>
-        ///     Loader for GraphView
-        /// </summary>
-        /// <param name="sender">sender</param>
-        /// <param name="e">event arguments</param>
-        private void GraphView_Load(object sender, EventArgs e)
-        {
             ParseTable();
+            SortDictionaries();
             Cursor.Current = Cursors.Default;
             BuildChart(_xY, _firstColumn, _secondColumn);
+            MessageBox.Show(Resources.GraphViewChartClickHint);
         }
 
         /// <summary>
@@ -52,31 +47,47 @@ namespace TableAnalyser
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void chart_Click(object sender, EventArgs e)
+        private void Chart_Click(object sender, EventArgs e)
         {
             _flag = !_flag;
             if (_flag)
                 BuildChart(_xY, _firstColumn, _secondColumn);
             else
-                BuildChart(_xY, _secondColumn, _firstColumn);
+                BuildChart(_yX, _secondColumn, _firstColumn);
         }
 
         /// <summary>
         ///     Build chart
         /// </summary>
         /// <param name="xy">Dicitonary of coordinates</param>
-        private void BuildChart(Dictionary<int, int> xy, string Ox, string Oy)
+        /// <param name="ox">Name for Ox</param>
+        /// <param name="oy">Name for Oy</param>
+        private void BuildChart(List<KeyValuePair<int, int>> xy, string ox, string oy)
         {
             chart.Series[0].Points.Clear();
             chart.Series[0].Name = "Graph";
-            chart.Series[0].LegendText = "Dependence " + Ox + " from " + Oy;
-            chart.ChartAreas[0].AxisX.Title = Ox;
-            chart.ChartAreas[0].AxisY.Title = Oy;
-            var myList = xy.ToList();
-            myList.Sort((pair1, pair2) => pair1.Key.CompareTo(pair2.Key));
-            foreach (KeyValuePair<int, int> pair in myList)
-                chart.Series[0].Points.Add(pair.Key, pair.Value);
+            chart.Series[0].LegendText = "Dependence " + ox + " from " + oy;
+            chart.ChartAreas[0].AxisX.Title = ox;
+            chart.ChartAreas[0].AxisY.Title = oy;
             chart.Series[0].ChartType = SeriesChartType.Spline;
+
+            foreach (KeyValuePair<int, int> pair in xy)
+                chart.Series[0].Points.Add(pair.Key, pair.Value);
+
+            trackBarMinimum.Minimum = (int) chart.ChartAreas[0].AxisX.Minimum;
+            trackBarMinimum.Maximum = (int) chart.ChartAreas[0].AxisX.Maximum;
+            trackBarMaximum.Minimum = (int) chart.ChartAreas[0].AxisX.Minimum;
+            trackBarMaximum.Maximum = (int) chart.ChartAreas[0].AxisX.Maximum;
+            trackBarMaximum.TickFrequency = 5;
+            trackBarMinimum.TickFrequency = 5;
+            trackBarMaximum.Value = (int) chart.ChartAreas[0].AxisX.Maximum;
+            trackBarMinimum.Value = (int) chart.ChartAreas[0].AxisX.Minimum;
+        }
+
+        private void SetTrackbarsMinMax()
+        {
+            trackBarMaximum.Minimum = trackBarMinimum.Value;
+            trackBarMinimum.Maximum = trackBarMaximum.Value;
         }
 
         /// <summary>
@@ -84,41 +95,85 @@ namespace TableAnalyser
         /// </summary>
         private void ParseTable()
         {
-            //for (int i = 0; i < _dataTable.Rows.Count; i++)
             foreach (DataRow row in _dataTable.Rows)
                 try
                 {
-                    if (_xY.ContainsKey(int.Parse(row[_firstColumn] as string ?? throw new BuildingGraphException())))
-                        _xY[int.Parse(row[_firstColumn] as string)] =
-                        (_xY[int.Parse(row[_firstColumn] as string)] + (row[_secondColumn] == null
+                    if (_xYDictionary.ContainsKey(
+                        int.Parse(row[_firstColumn] as string ?? throw new BuildingGraphException())))
+                        _xYDictionary[int.Parse(row[_firstColumn] as string)] =
+                        (_xYDictionary[int.Parse(row[_firstColumn] as string)] + (row[_secondColumn] == null
                              ? 0
                              : int.Parse(row[_secondColumn] as string ?? throw new BuildingGraphException()))) / 2;
                     else
-                        _xY.Add(
+                        _xYDictionary.Add(
                             row[_firstColumn] == null
                                 ? 0
                                 : int.Parse(row[_firstColumn] as string ?? throw new BuildingGraphException()),
                             row[_secondColumn] == null
                                 ? 0
                                 : int.Parse(row[_secondColumn] as string ?? throw new BuildingGraphException()));
-                if (_yX.ContainsKey(int.Parse(row[_secondColumn] as string ?? throw new BuildingGraphException())))
-                    _yX[int.Parse(row[_secondColumn] as string)] =
-                    (_yX[int.Parse(row[_secondColumn] as string)] + (row[_firstColumn] == null
-                         ? 0
-                         : int.Parse(row[_firstColumn] as string ?? throw new BuildingGraphException()))) / 2;
-                else
-                    _yX.Add(
-                        row[_secondColumn] == null
-                            ? 0
-                            : int.Parse(row[_secondColumn] as string ?? throw new BuildingGraphException()),
-                        row[_firstColumn] == null
-                            ? 0
-                            : int.Parse(row[_firstColumn] as string ?? throw new BuildingGraphException()));
-            }
-            catch (Exception exception)
-            {
-                throw new GraphException(exception);
-            }
+                    if (_yXDictionary.ContainsKey(
+                        int.Parse(row[_secondColumn] as string ?? throw new BuildingGraphException())))
+                        _yXDictionary[int.Parse(row[_secondColumn] as string)] =
+                        (_yXDictionary[int.Parse(row[_secondColumn] as string)] + (row[_firstColumn] == null
+                             ? 0
+                             : int.Parse(row[_firstColumn] as string ?? throw new BuildingGraphException()))) / 2;
+                    else
+                        _yXDictionary.Add(
+                            row[_secondColumn] == null
+                                ? 0
+                                : int.Parse(row[_secondColumn] as string ?? throw new BuildingGraphException()),
+                            row[_firstColumn] == null
+                                ? 0
+                                : int.Parse(row[_firstColumn] as string ?? throw new BuildingGraphException()));
+                }
+                catch (Exception exception)
+                {
+                    throw new GraphException(exception);
+                }
+        }
+
+        private void TrackBarMaximum_Scroll(object sender, EventArgs e)
+        {
+            SetTrackbarsMinMax();
+            chart.ChartAreas[0].AxisX.Maximum = trackBarMaximum.Value;
+        }
+
+        private void TrackBarMinimum_Scroll(object sender, EventArgs e)
+        {
+            SetTrackbarsMinMax();
+            chart.ChartAreas[0].AxisX.Minimum = trackBarMinimum.Value;
+        }
+
+        private void SortDictionaries()
+        {
+            _xY = _xYDictionary.ToList();
+            _xY.Sort((pair1, pair2) => pair1.Key.CompareTo(pair2.Key));
+
+            _yX = _yXDictionary.ToList();
+            _yX.Sort((pair1, pair2) => pair1.Key.CompareTo(pair2.Key));
+        }
+
+        public void ChangeColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+                chart.Series[0].Color = colorDialog.Color;
+        }
+
+        private void ExportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            if (folderBrowserDialog.ShowDialog() != DialogResult.OK) return;
+            if (_flag)
+                chart.SaveImage(
+                    folderBrowserDialog.SelectedPath + @"\" + "Dependence" + _firstColumn + "from" + _secondColumn +
+                    ".png", ChartImageFormat.Png);
+            else
+                chart.SaveImage(
+                    folderBrowserDialog.SelectedPath + @"\" + "Dependence" + _secondColumn + "from" + _firstColumn +
+                    ".png", ChartImageFormat.Png);
+            MessageBox.Show(Resources.FileSave + folderBrowserDialog.SelectedPath);
         }
     }
 }

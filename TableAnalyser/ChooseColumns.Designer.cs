@@ -59,6 +59,7 @@
             this.ClientSize = new System.Drawing.Size(384, 361);
             this.Controls.Add(this.button);
             this.Controls.Add(this.checkedListBox);
+            this.MaximizeBox = false;
             this.Name = "ChooseColumns";
             this.Text = "ChooseColumns";
             this.ResumeLayout(false);

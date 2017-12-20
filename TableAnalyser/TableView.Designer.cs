@@ -81,6 +81,7 @@
             this.Controls.Add(this._dataGridView);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
+            this.MaximizeBox = false;
             this.Name = "TableView";
             this.Text = "TableView";
             this.menuStrip.ResumeLayout(false);

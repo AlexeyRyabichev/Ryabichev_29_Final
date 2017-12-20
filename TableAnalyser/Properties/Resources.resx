@@ -127,4 +127,11 @@
     <value>You have error while choosing: 
 </value>
   </data>
+  <data name="GraphViewChartClickHint" xml:space="preserve">
+    <value>Click on chart to activate it
+Then click to swap Ox and Oy</value>
+  </data>
+  <data name="FileSave" xml:space="preserve">
+    <value>File saved at: </value>
+  </data>
 </root>

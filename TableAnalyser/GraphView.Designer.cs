@@ -28,49 +28,135 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.trackBarMinimum = new System.Windows.Forms.TrackBar();
+            this.trackBarMaximum = new System.Windows.Forms.TrackBar();
+            this.labelMinimumValue = new System.Windows.Forms.Label();
+            this.labelMaximumValue = new System.Windows.Forms.Label();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarMinimum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarMaximum)).BeginInit();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // chart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart.Legends.Add(legend1);
-            this.chart.Location = new System.Drawing.Point(12, 12);
+            chartArea2.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart.Legends.Add(legend2);
+            this.chart.Location = new System.Drawing.Point(12, 27);
             this.chart.Name = "chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart.Series.Add(series1);
-            this.chart.Size = new System.Drawing.Size(660, 600);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart.Series.Add(series2);
+            this.chart.Size = new System.Drawing.Size(660, 545);
             this.chart.TabIndex = 0;
             this.chart.Text = "Graph";
-            this.chart.Click += new System.EventHandler(this.chart_Click);
+            this.chart.Click += new System.EventHandler(this.Chart_Click);
+            // 
+            // trackBarMinimum
+            // 
+            this.trackBarMinimum.Location = new System.Drawing.Point(9, 584);
+            this.trackBarMinimum.Name = "trackBarMinimum";
+            this.trackBarMinimum.Size = new System.Drawing.Size(576, 45);
+            this.trackBarMinimum.TabIndex = 1;
+            this.trackBarMinimum.Scroll += new System.EventHandler(this.TrackBarMinimum_Scroll);
+            // 
+            // trackBarMaximum
+            // 
+            this.trackBarMaximum.Location = new System.Drawing.Point(12, 635);
+            this.trackBarMaximum.Name = "trackBarMaximum";
+            this.trackBarMaximum.Size = new System.Drawing.Size(576, 45);
+            this.trackBarMaximum.TabIndex = 2;
+            this.trackBarMaximum.Value = 10;
+            this.trackBarMaximum.Scroll += new System.EventHandler(this.TrackBarMaximum_Scroll);
+            // 
+            // labelMinimumValue
+            // 
+            this.labelMinimumValue.AutoSize = true;
+            this.labelMinimumValue.Location = new System.Drawing.Point(591, 584);
+            this.labelMinimumValue.Name = "labelMinimumValue";
+            this.labelMinimumValue.Size = new System.Drawing.Size(78, 13);
+            this.labelMinimumValue.TabIndex = 3;
+            this.labelMinimumValue.Text = "Minimum Value";
+            // 
+            // labelMaximumValue
+            // 
+            this.labelMaximumValue.AutoSize = true;
+            this.labelMaximumValue.Location = new System.Drawing.Point(591, 635);
+            this.labelMaximumValue.Name = "labelMaximumValue";
+            this.labelMaximumValue.Size = new System.Drawing.Size(81, 13);
+            this.labelMaximumValue.TabIndex = 4;
+            this.labelMaximumValue.Text = "Maximum Value";
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportToolStripMenuItem,
+            this.changeColorToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(684, 24);
+            this.menuStrip.TabIndex = 5;
+            this.menuStrip.Text = "Menu";
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.exportToolStripMenuItem.Text = "Export";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.ExportToolStripMenuItem_Click);
+            // 
+            // changeColorToolStripMenuItem
+            // 
+            this.changeColorToolStripMenuItem.Name = "changeColorToolStripMenuItem";
+            this.changeColorToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
+            this.changeColorToolStripMenuItem.Text = "Change color";
+            this.changeColorToolStripMenuItem.Click += new System.EventHandler(this.ChangeColorToolStripMenuItem_Click);
             // 
             // GraphView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 661);
+            this.ClientSize = new System.Drawing.Size(684, 692);
+            this.Controls.Add(this.labelMaximumValue);
+            this.Controls.Add(this.labelMinimumValue);
+            this.Controls.Add(this.trackBarMaximum);
+            this.Controls.Add(this.trackBarMinimum);
             this.Controls.Add(this.chart);
+            this.Controls.Add(this.menuStrip);
+            this.MainMenuStrip = this.menuStrip;
+            this.MaximizeBox = false;
             this.Name = "GraphView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GraphView";
-            this.Load += new System.EventHandler(this.GraphView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarMinimum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarMaximum)).EndInit();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.TrackBar trackBarMinimum;
+        private System.Windows.Forms.TrackBar trackBarMaximum;
+        private System.Windows.Forms.Label labelMinimumValue;
+        private System.Windows.Forms.Label labelMaximumValue;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeColorToolStripMenuItem;
     }
 }

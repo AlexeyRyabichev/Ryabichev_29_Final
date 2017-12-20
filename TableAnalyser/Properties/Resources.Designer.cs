@@ -96,5 +96,24 @@ namespace TableAnalyser.Properties {
                 return ResourceManager.GetString("ChooseExceptionMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File saved at: .
+        /// </summary>
+        internal static string FileSave {
+            get {
+                return ResourceManager.GetString("FileSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click on chart to activate it
+        ///Then click to swap Ox and Oy.
+        /// </summary>
+        internal static string GraphViewChartClickHint {
+            get {
+                return ResourceManager.GetString("GraphViewChartClickHint", resourceCulture);
+            }
+        }
     }
 }
