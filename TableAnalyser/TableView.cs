@@ -8,7 +8,7 @@ using TableAnalyser.Properties;
 
 namespace TableAnalyser
 {
-    public partial class TableView : Form
+    public sealed partial class TableView : Form
     {
         private readonly OpenFileDialog _openFileDialog = new OpenFileDialog
         {
@@ -105,7 +105,7 @@ namespace TableAnalyser
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFile();
         }
@@ -115,7 +115,7 @@ namespace TableAnalyser
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void buildGraphToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BuildGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChooseColumns chooseColumns = new ChooseColumns(_dataTable);
             try
@@ -136,7 +136,7 @@ namespace TableAnalyser
             catch (ChooseException exception)
             {
                 MessageBox.Show(Resources.ChooseExceptionMessage + exception.Message);
-                buildGraphToolStripMenuItem_Click(sender, e);
+                BuildGraphToolStripMenuItem_Click(sender, e);
             }
             catch (GraphException exception)
             {
@@ -160,6 +160,26 @@ namespace TableAnalyser
             for (int j = 0; j < s.Split(',').Length; j++)
                 objects[j] = string.IsNullOrEmpty(s.Split(',')[j]) ? "0" : s.Split(',')[j];
             return objects;
+        }
+
+        /// <summary>
+        /// Listener for mouse hover of table
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
+        private void _dataGridView_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(_dataGridView, "Table of elements from file");
+        }
+
+        /// <summary>
+        /// Listener for mouse hover of menu
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
+        private void OpenFileToolStripMenuItem_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(menuStrip, "Menu");
         }
     }
 }

@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.trackBarMinimum = new System.Windows.Forms.TrackBar();
             this.trackBarMaximum = new System.Windows.Forms.TrackBar();
@@ -39,6 +40,7 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarMinimum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarMaximum)).BeginInit();
@@ -47,20 +49,21 @@
             // 
             // chart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart.Legends.Add(legend2);
+            chartArea4.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chart.Legends.Add(legend4);
             this.chart.Location = new System.Drawing.Point(12, 27);
             this.chart.Name = "chart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart.Series.Add(series2);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chart.Series.Add(series4);
             this.chart.Size = new System.Drawing.Size(660, 545);
             this.chart.TabIndex = 0;
             this.chart.Text = "Graph";
             this.chart.Click += new System.EventHandler(this.Chart_Click);
+            this.chart.MouseHover += new System.EventHandler(this.Chart_MouseHover);
             // 
             // trackBarMinimum
             // 
@@ -69,6 +72,7 @@
             this.trackBarMinimum.Size = new System.Drawing.Size(576, 45);
             this.trackBarMinimum.TabIndex = 1;
             this.trackBarMinimum.Scroll += new System.EventHandler(this.TrackBarMinimum_Scroll);
+            this.trackBarMinimum.MouseHover += new System.EventHandler(this.TrackBarMinimum_MouseHover);
             // 
             // trackBarMaximum
             // 
@@ -78,6 +82,7 @@
             this.trackBarMaximum.TabIndex = 2;
             this.trackBarMaximum.Value = 10;
             this.trackBarMaximum.Scroll += new System.EventHandler(this.TrackBarMaximum_Scroll);
+            this.trackBarMaximum.MouseHover += new System.EventHandler(this.TrackBarMaximum_MouseHover);
             // 
             // labelMinimumValue
             // 
@@ -114,6 +119,7 @@
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.exportToolStripMenuItem.Text = "Export";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.ExportToolStripMenuItem_Click);
+            this.exportToolStripMenuItem.MouseHover += new System.EventHandler(this.ExportToolStripMenuItem_MouseHover);
             // 
             // changeColorToolStripMenuItem
             // 
@@ -158,5 +164,6 @@
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeColorToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

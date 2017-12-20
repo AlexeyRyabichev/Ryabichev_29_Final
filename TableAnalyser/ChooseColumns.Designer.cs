@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.checkedListBox = new System.Windows.Forms.CheckedListBox();
             this.button = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // checkedListBox
@@ -41,6 +43,7 @@
             this.checkedListBox.ScrollAlwaysVisible = true;
             this.checkedListBox.Size = new System.Drawing.Size(203, 214);
             this.checkedListBox.TabIndex = 0;
+            this.checkedListBox.MouseHover += new System.EventHandler(this.CheckedListBox_MouseHover);
             // 
             // button
             // 
@@ -50,7 +53,8 @@
             this.button.TabIndex = 1;
             this.button.Text = "OK";
             this.button.UseVisualStyleBackColor = true;
-            this.button.Click += new System.EventHandler(this.button_Click);
+            this.button.Click += new System.EventHandler(this.Button_Click);
+            this.button.MouseHover += new System.EventHandler(this.Button_MouseHover);
             // 
             // ChooseColumns
             // 
@@ -70,5 +74,6 @@
 
         private System.Windows.Forms.CheckedListBox checkedListBox;
         private System.Windows.Forms.Button button;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

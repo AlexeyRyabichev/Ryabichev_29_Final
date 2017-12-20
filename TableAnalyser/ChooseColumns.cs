@@ -10,8 +10,6 @@ namespace TableAnalyser
     {
         private readonly DataTable _dataTable;
         private string[] _tableHeaders;
-        public string FirstColumn { get; private set; }
-        public string SecondColumn { get; private set; }
 
         /// <summary>
         ///     Create form of ChooseColumn
@@ -27,6 +25,8 @@ namespace TableAnalyser
             Load += ChooseColumns_Load;
         }
 
+        public string FirstColumn { get; private set; }
+        public string SecondColumn { get; private set; }
 
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace TableAnalyser
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void button_Click(object sender, EventArgs e)
+        private void Button_Click(object sender, EventArgs e)
         {
             if (checkedListBox.CheckedIndices.Count != 2)
                 throw new ChooseException("Choose only two columns");
@@ -57,6 +57,26 @@ namespace TableAnalyser
             SecondColumn = _tableHeaders[checkedListBox.CheckedIndices[1]];
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        /// <summary>
+        ///     Listener for mouse hover of listbox
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
+        private void CheckedListBox_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(checkedListBox, "List of column names");
+        }
+
+        /// <summary>
+        ///     Listener for mouse hover of button
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
+        private void Button_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(button, "OK button");
         }
     }
 }

@@ -133,18 +133,31 @@ namespace TableAnalyser
                 }
         }
 
+        /// <summary>
+        ///     Listener for maximum trackbar scrolling
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
         private void TrackBarMaximum_Scroll(object sender, EventArgs e)
         {
             SetTrackbarsMinMax();
             chart.ChartAreas[0].AxisX.Maximum = trackBarMaximum.Value;
         }
 
+        /// <summary>
+        ///     Listener for minimum trackbar scrolling
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
         private void TrackBarMinimum_Scroll(object sender, EventArgs e)
         {
             SetTrackbarsMinMax();
             chart.ChartAreas[0].AxisX.Minimum = trackBarMinimum.Value;
         }
 
+        /// <summary>
+        ///     Cast dicitonaries to lists and sort them
+        /// </summary>
         private void SortDictionaries()
         {
             _xY = _xYDictionary.ToList();
@@ -154,6 +167,11 @@ namespace TableAnalyser
             _yX.Sort((pair1, pair2) => pair1.Key.CompareTo(pair2.Key));
         }
 
+        /// <summary>
+        ///     Change color of chart
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
         public void ChangeColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog colorDialog = new ColorDialog();
@@ -161,6 +179,11 @@ namespace TableAnalyser
                 chart.Series[0].Color = colorDialog.Color;
         }
 
+        /// <summary>
+        ///     Export chart as png
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
         private void ExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
@@ -174,6 +197,46 @@ namespace TableAnalyser
                     folderBrowserDialog.SelectedPath + @"\" + "Dependence" + _secondColumn + "from" + _firstColumn +
                     ".png", ChartImageFormat.Png);
             MessageBox.Show(Resources.FileSave + folderBrowserDialog.SelectedPath);
+        }
+
+        /// <summary>
+        ///     Listener for mouse hover of chart
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
+        private void Chart_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(chart, "Chart");
+        }
+
+        /// <summary>
+        ///     Listener for mouse hover of menu
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
+        private void ExportToolStripMenuItem_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(menuStrip, "Menu");
+        }
+
+        /// <summary>
+        ///     Listener for mouse hover of maximum trackbar
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
+        private void TrackBarMaximum_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(trackBarMaximum, "Maximum trackbar");
+        }
+
+        /// <summary>
+        ///     Listener for mouse hover of minimum tracbar
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event arguments</param>
+        private void TrackBarMinimum_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(trackBarMinimum, "Minimum trackbar");
         }
     }
 }

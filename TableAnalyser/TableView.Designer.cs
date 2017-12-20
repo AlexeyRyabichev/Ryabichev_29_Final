@@ -1,6 +1,6 @@
 ﻿namespace TableAnalyser
 {
-    partial class TableView
+    sealed partial class TableView
     {
         /// <summary>
         /// Required designer variable.
@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buildGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._dataGridView = new System.Windows.Forms.DataGridView();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -52,14 +54,15 @@
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
             this.openFileToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.openFileToolStripMenuItem.Text = "Open file";
-            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
+            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.OpenFileToolStripMenuItem_Click);
+            this.openFileToolStripMenuItem.MouseHover += new System.EventHandler(this.OpenFileToolStripMenuItem_MouseHover);
             // 
             // buildGraphToolStripMenuItem
             // 
             this.buildGraphToolStripMenuItem.Name = "buildGraphToolStripMenuItem";
             this.buildGraphToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
             this.buildGraphToolStripMenuItem.Text = "Build Graph";
-            this.buildGraphToolStripMenuItem.Click += new System.EventHandler(this.buildGraphToolStripMenuItem_Click);
+            this.buildGraphToolStripMenuItem.Click += new System.EventHandler(this.BuildGraphToolStripMenuItem_Click);
             // 
             // _dataGridView
             // 
@@ -72,6 +75,7 @@
             this._dataGridView.ReadOnly = true;
             this._dataGridView.Size = new System.Drawing.Size(650, 620);
             this._dataGridView.TabIndex = 1;
+            this._dataGridView.MouseHover += new System.EventHandler(this._dataGridView_MouseHover);
             // 
             // TableView
             // 
@@ -98,5 +102,6 @@
         private System.Windows.Forms.DataGridView _dataGridView;
         private System.Windows.Forms.ToolStripMenuItem openFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buildGraphToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
