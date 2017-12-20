@@ -66,7 +66,7 @@ namespace TableAnalyser
         {
             chart.Series[0].Points.Clear();
             chart.Series[0].Name = "Graph";
-            chart.Series[0].LegendText = "Dependence " + ox + " from " + oy;
+            chart.Series[0].LegendText = "Dependence " + oy + " from " + ox;
             chart.ChartAreas[0].AxisX.Title = ox;
             chart.ChartAreas[0].AxisY.Title = oy;
             chart.Series[0].ChartType = SeriesChartType.Spline;
@@ -190,11 +190,11 @@ namespace TableAnalyser
             if (folderBrowserDialog.ShowDialog() != DialogResult.OK) return;
             if (_flag)
                 chart.SaveImage(
-                    folderBrowserDialog.SelectedPath + @"\" + "Dependence" + _firstColumn + "from" + _secondColumn +
+                    folderBrowserDialog.SelectedPath + @"\" + "Dependence" + _secondColumn + "from" + _firstColumn +
                     ".png", ChartImageFormat.Png);
             else
                 chart.SaveImage(
-                    folderBrowserDialog.SelectedPath + @"\" + "Dependence" + _secondColumn + "from" + _firstColumn +
+                    folderBrowserDialog.SelectedPath + @"\" + "Dependence" + _firstColumn + "from" +  _secondColumn+
                     ".png", ChartImageFormat.Png);
             MessageBox.Show(Resources.FileSave + folderBrowserDialog.SelectedPath);
         }
