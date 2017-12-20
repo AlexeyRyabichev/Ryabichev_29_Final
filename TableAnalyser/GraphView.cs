@@ -204,39 +204,27 @@ namespace TableAnalyser
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void Chart_MouseHover(object sender, EventArgs e)
-        {
-            toolTip.SetToolTip(chart, "Chart");
-        }
+        private void Chart_MouseHover(object sender, EventArgs e) => toolTip.SetToolTip(chart, "Chart");
 
         /// <summary>
         ///     Listener for mouse hover of menu
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void ExportToolStripMenuItem_MouseHover(object sender, EventArgs e)
-        {
-            toolTip.SetToolTip(menuStrip, "Menu");
-        }
+        private void ExportToolStripMenuItem_MouseHover(object sender, EventArgs e) => toolTip.SetToolTip(menuStrip, "Menu");
 
         /// <summary>
         ///     Listener for mouse hover of maximum trackbar
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void TrackBarMaximum_MouseHover(object sender, EventArgs e)
-        {
-            toolTip.SetToolTip(trackBarMaximum, "Maximum trackbar");
-        }
+        private void TrackBarMaximum_MouseHover(object sender, EventArgs e) => toolTip.SetToolTip(trackBarMaximum, "Maximum trackbar");
 
         /// <summary>
         ///     Listener for mouse hover of minimum tracbar
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void TrackBarMinimum_MouseHover(object sender, EventArgs e)
-        {
-            toolTip.SetToolTip(trackBarMinimum, "Minimum trackbar");
-        }
+        private void TrackBarMinimum_MouseHover(object sender, EventArgs e) => toolTip.SetToolTip(trackBarMinimum, "Minimum trackbar");
     }
 }

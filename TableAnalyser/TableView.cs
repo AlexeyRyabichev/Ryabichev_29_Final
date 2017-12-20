@@ -105,10 +105,7 @@ namespace TableAnalyser
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void OpenFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFile();
-        }
+        private void OpenFileToolStripMenuItem_Click(object sender, EventArgs e) => OpenFile();
 
         /// <summary>
         ///     Clicker for build graph menu
@@ -167,19 +164,13 @@ namespace TableAnalyser
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void _dataGridView_MouseHover(object sender, EventArgs e)
-        {
-            toolTip.SetToolTip(_dataGridView, "Table of elements from file");
-        }
+        private void _dataGridView_MouseHover(object sender, EventArgs e) => toolTip.SetToolTip(_dataGridView, "Table of elements from file");
 
         /// <summary>
         /// Listener for mouse hover of menu
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void OpenFileToolStripMenuItem_MouseHover(object sender, EventArgs e)
-        {
-            toolTip.SetToolTip(menuStrip, "Menu");
-        }
+        private void OpenFileToolStripMenuItem_MouseHover(object sender, EventArgs e) => toolTip.SetToolTip(menuStrip, "Menu");
     }
 }

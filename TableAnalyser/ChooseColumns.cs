@@ -64,19 +64,13 @@ namespace TableAnalyser
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void CheckedListBox_MouseHover(object sender, EventArgs e)
-        {
-            toolTip.SetToolTip(checkedListBox, "List of column names");
-        }
+        private void CheckedListBox_MouseHover(object sender, EventArgs e) => toolTip.SetToolTip(checkedListBox, "List of column names");
 
         /// <summary>
         ///     Listener for mouse hover of button
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event arguments</param>
-        private void Button_MouseHover(object sender, EventArgs e)
-        {
-            toolTip.SetToolTip(button, "OK button");
-        }
+        private void Button_MouseHover(object sender, EventArgs e) => toolTip.SetToolTip(button, "OK button");
     }
 }
